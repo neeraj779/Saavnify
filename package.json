@@ -1,12 +1,38 @@
 {
   "name": "saavnify",
+  "type": "module",
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "lint": "eslint .",
+    "lint-staged": "lint-staged",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --watch",
+    "validate": "bun run typecheck && bun run lint && bun run format:check"
   },
   "dependencies": {
     "hono": "^4.7.5"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.23.0",
+    "@types/bun": "latest",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-prettier": "^5.2.5",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "3.5.3",
+    "typescript-eslint": "^8.28.0"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "bun run lint",
+      "bun run format"
+    ]
   }
 }
