@@ -34,6 +34,10 @@ coverage
 tmp/
 temp/
 
+# Misc
+.DS_Store
+*.pem
+
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
