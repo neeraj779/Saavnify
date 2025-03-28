@@ -3,6 +3,9 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
+    "dev:wrangler": "wrangler dev",
+    "build": "bun run esbuild.config.mjs",
+    "deploy:wrangler": "wrangler deploy --minify",
     "lint": "eslint .",
     "lint-staged": "lint-staged",
     "lint:fix": "eslint . --fix",
@@ -24,6 +27,7 @@
     "@eslint/js": "^9.23.0",
     "@types/bun": "latest",
     "@types/node-forge": "^1.3.11",
+    "esbuild": "^0.25.1",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.5",
@@ -31,7 +35,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.5.0",
     "prettier": "3.5.3",
-    "typescript-eslint": "^8.28.0"
+    "typescript-eslint": "^8.28.0",
+    "wrangler": "^4.5.1"
   },
   "lint-staged": {
     "*.ts": [
