@@ -4,6 +4,7 @@
     "": {
       "name": "saavnify",
       "dependencies": {
+        "@scalar/hono-api-reference": "^0.7.3",
         "hono": "^4.7.5",
         "http-status": "^2.1.0",
         "node-forge": "^1.3.1",
@@ -215,6 +216,14 @@
 
     "@pkgr/core": ["@pkgr/core@0.2.0", "", {}, "sha512-vsJDAkYR6qCPu+ioGScGiMYR7LvZYIXh/dlQeviqoTWNCVfKTLYD/LkNWH4Mxsv2a5vpIRc77FN5DnmK1eBggQ=="],
 
+    "@scalar/core": ["@scalar/core@0.2.3", "", { "dependencies": { "@scalar/types": "0.1.3" } }, "sha512-o13vK5ThCZzkRp7fzFDzCcvzLJQz5d7Q2xLQbZ2FpeN/9L3uOFFkWabE2vO1kwz9q7baFq5lZKB0q4DPF+UW4Q=="],
+
+    "@scalar/hono-api-reference": ["@scalar/hono-api-reference@0.7.3", "", { "dependencies": { "@scalar/core": "0.2.3" }, "peerDependencies": { "hono": "^4.0.0" } }, "sha512-E7ArxL2YyA+yGzOuo794dsVfBLDpKycqUuJAV+V9BFXv1DCeT2dSjF8L7IhBgwMM/cx31O36juWVq2bcIJ4k7Q=="],
+
+    "@scalar/openapi-types": ["@scalar/openapi-types@0.1.9", "", {}, "sha512-HQQudOSQBU7ewzfnBW9LhDmBE2XOJgSfwrh5PlUB7zJup/kaRkBGNgV2wMjNz9Af/uztiU/xNrO179FysmUT+g=="],
+
+    "@scalar/types": ["@scalar/types@0.1.3", "", { "dependencies": { "@scalar/openapi-types": "0.1.9", "@unhead/schema": "^1.11.11", "zod": "^3.23.8" } }, "sha512-Fxtgjp5wHhTzXiyODYWIoTsTy3oFC70vme+0I7MNwd8i6D8qplFNnpURueqBuP4MglBM2ZhFv3hPLw4D69anDA=="],
+
     "@types/bun": ["@types/bun@1.2.8", "", { "dependencies": { "bun-types": "1.2.7" } }, "sha512-t8L1RvJVUghW5V+M/fL3Thbxcs0HwNsXsnTEBEfEVqGteiJToOlZ/fyOEaR1kZsNqnu+3XA4RI/qmnX4w6+S+w=="],
 
     "@types/conventional-commits-parser": ["@types/conventional-commits-parser@5.0.1", "", { "dependencies": { "@types/node": "*" } }, "sha512-7uz5EHdzz2TqoMfV7ee61Egf5y6NkcO4FB/1iCCQnbeiI1F3xzv3vK5dBCXUCLQgGYS+mUeigK1iKQzvED+QnQ=="],
@@ -244,6 +253,8 @@
     "@typescript-eslint/utils": ["@typescript-eslint/utils@8.28.0", "", { "dependencies": { "@eslint-community/eslint-utils": "^4.4.0", "@typescript-eslint/scope-manager": "8.28.0", "@typescript-eslint/types": "8.28.0", "@typescript-eslint/typescript-estree": "8.28.0" }, "peerDependencies": { "eslint": "^8.57.0 || ^9.0.0", "typescript": ">=4.8.4 <5.9.0" } }, "sha512-OELa9hbTYciYITqgurT1u/SzpQVtDLmQMFzy/N8pQE+tefOyCWT79jHsav294aTqV1q1u+VzqDGbuujvRYaeSQ=="],
 
     "@typescript-eslint/visitor-keys": ["@typescript-eslint/visitor-keys@8.28.0", "", { "dependencies": { "@typescript-eslint/types": "8.28.0", "eslint-visitor-keys": "^4.2.0" } }, "sha512-hbn8SZ8w4u2pRwgQ1GlUrPKE+t2XvcCW5tTRF7j6SMYIuYG37XuzIW44JCZPa36evi0Oy2SnM664BlIaAuQcvg=="],
+
+    "@unhead/schema": ["@unhead/schema@1.11.20", "", { "dependencies": { "hookable": "^5.5.3", "zhead": "^2.2.4" } }, "sha512-0zWykKAaJdm+/Y7yi/Yds20PrUK7XabLe9c3IRcjnwYmSWY6z0Cr19VIs3ozCj8P+GhR+/TI2mwtGlueCEYouA=="],
 
     "JSONStream": ["JSONStream@1.3.5", "", { "dependencies": { "jsonparse": "^1.2.0", "through": ">=2.2.7 <3" }, "bin": { "JSONStream": "./bin.js" } }, "sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ=="],
 
@@ -422,6 +433,8 @@
     "has-flag": ["has-flag@4.0.0", "", {}, "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="],
 
     "hono": ["hono@4.7.5", "", {}, "sha512-fDOK5W2C1vZACsgLONigdZTRZxuBqFtcKh7bUQ5cVSbwI2RWjloJDcgFOVzbQrlI6pCmhlTsVYZ7zpLj4m4qMQ=="],
+
+    "hookable": ["hookable@5.5.3", "", {}, "sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ=="],
 
     "http-status": ["http-status@2.1.0", "", {}, "sha512-O5kPr7AW7wYd/BBiOezTwnVAnmSNFY+J7hlZD2X5IOxVBetjcHAiTXhzj0gMrnojQlwy+UT1/Y3H3vJ3UlmvLA=="],
 
@@ -680,6 +693,8 @@
     "yocto-queue": ["yocto-queue@0.1.0", "", {}, "sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q=="],
 
     "youch": ["youch@3.2.3", "", { "dependencies": { "cookie": "^0.5.0", "mustache": "^4.2.0", "stacktracey": "^2.1.8" } }, "sha512-ZBcWz/uzZaQVdCvfV4uk616Bbpf2ee+F/AvuKDR5EwX/Y4v06xWdtMluqTD7+KlZdM93lLm9gMZYo0sKBS0pgw=="],
+
+    "zhead": ["zhead@2.2.4", "", {}, "sha512-8F0OI5dpWIA5IGG5NHUg9staDwz/ZPxZtvGVf01j7vHqSyZ0raHY+78atOVxRqb73AotX22uV1pXt3gYSstGag=="],
 
     "zod": ["zod@3.24.2", "", {}, "sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ=="],
 

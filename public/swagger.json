@@ -1,0 +1,1807 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Saavnify",
+    "version": "1.0.0",
+    "description": "API documentation for Saavnify"
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Development server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "AccessToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Access-Code",
+        "description": "Access token for API authentication"
+      }
+    },
+    "schemas": {
+      "Album": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "alb123"
+          },
+          "name": {
+            "type": "string",
+            "example": "÷ (Divide)"
+          },
+          "description": {
+            "type": "string",
+            "example": "Third studio album by Ed Sheeran"
+          },
+          "year": {
+            "type": "number",
+            "nullable": true,
+            "example": 2017
+          },
+          "type": {
+            "type": "string",
+            "example": "album"
+          },
+          "playCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 1000000
+          },
+          "language": {
+            "type": "string",
+            "example": "english"
+          },
+          "explicitContent": {
+            "type": "boolean",
+            "example": false
+          },
+          "artists": {
+            "type": "object",
+            "properties": {
+              "primary": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              },
+              "featured": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              },
+              "all": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              }
+            }
+          },
+          "songCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 16
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.jiosaavn.com/album/divide/xyz123"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadLink"
+            }
+          },
+          "songs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          }
+        }
+      },
+      "Artist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "art123"
+          },
+          "name": {
+            "type": "string",
+            "example": "Ed Sheeran"
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.jiosaavn.com/artist/ed-sheeran/art123"
+          },
+          "type": {
+            "type": "string",
+            "example": "artist"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadLink"
+            }
+          },
+          "followerCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 5000000
+          },
+          "fanCount": {
+            "type": "string",
+            "nullable": true,
+            "example": "5M"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "nullable": true,
+            "example": true
+          },
+          "dominantLanguage": {
+            "type": "string",
+            "nullable": true,
+            "example": "english"
+          },
+          "dominantType": {
+            "type": "string",
+            "nullable": true,
+            "example": "pop"
+          },
+          "bio": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "title": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "sequence": {
+                  "type": "number",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "dob": {
+            "type": "string",
+            "nullable": true,
+            "example": "1991-02-17"
+          },
+          "fb": {
+            "type": "string",
+            "nullable": true
+          },
+          "twitter": {
+            "type": "string",
+            "nullable": true
+          },
+          "wiki": {
+            "type": "string",
+            "nullable": true
+          },
+          "availableLanguages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isRadioPresent": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "topSongs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          },
+          "topAlbums": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Album"
+            }
+          },
+          "singles": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          },
+          "similarArtists": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "image": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DownloadLink"
+                  }
+                },
+                "languages": {
+                  "type": "object",
+                  "nullable": true
+                },
+                "wiki": {
+                  "type": "string"
+                },
+                "dob": {
+                  "type": "string"
+                },
+                "fb": {
+                  "type": "string"
+                },
+                "twitter": {
+                  "type": "string"
+                },
+                "isRadioPresent": {
+                  "type": "boolean"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "dominantType": {
+                  "type": "string"
+                },
+                "aka": {
+                  "type": "string"
+                },
+                "bio": {
+                  "type": "string",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "role": {
+            "type": "string",
+            "example": "primary"
+          }
+        }
+      },
+      "Playlist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "pls123"
+          },
+          "name": {
+            "type": "string",
+            "example": "Top Hits 2023"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "The biggest hits of the year"
+          },
+          "year": {
+            "type": "number",
+            "nullable": true,
+            "example": 2023
+          },
+          "type": {
+            "type": "string",
+            "example": "playlist"
+          },
+          "playCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 500000
+          },
+          "language": {
+            "type": "string",
+            "example": "english"
+          },
+          "explicitContent": {
+            "type": "boolean",
+            "example": false
+          },
+          "songCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 50
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.jiosaavn.com/playlist/top-hits-2023/xyz123"
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadLink"
+            }
+          },
+          "songs": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Song"
+            }
+          },
+          "artists": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/Artist"
+            }
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "$ref": "#/components/schemas/Song"
+                },
+                {
+                  "$ref": "#/components/schemas/Album"
+                },
+                {
+                  "$ref": "#/components/schemas/Artist"
+                },
+                {
+                  "$ref": "#/components/schemas/Playlist"
+                }
+              ]
+            }
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the result section",
+            "example": 1
+          }
+        }
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "albums": {
+            "$ref": "#/components/schemas/SearchResult"
+          },
+          "songs": {
+            "$ref": "#/components/schemas/SearchResult"
+          },
+          "artists": {
+            "$ref": "#/components/schemas/SearchResult"
+          },
+          "playlists": {
+            "$ref": "#/components/schemas/SearchResult"
+          },
+          "topQuery": {
+            "$ref": "#/components/schemas/SearchResult"
+          }
+        }
+      },
+      "Song": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "bxUxVgVC"
+          },
+          "name": {
+            "type": "string",
+            "example": "Shape of You"
+          },
+          "type": {
+            "type": "string",
+            "example": "song"
+          },
+          "year": {
+            "type": "string",
+            "nullable": true,
+            "example": "2017"
+          },
+          "releaseDate": {
+            "type": "string",
+            "nullable": true,
+            "example": "2017-01-06"
+          },
+          "duration": {
+            "type": "number",
+            "nullable": true,
+            "example": 235
+          },
+          "label": {
+            "type": "string",
+            "nullable": true,
+            "example": "Asylum Records"
+          },
+          "explicitContent": {
+            "type": "boolean",
+            "example": false
+          },
+          "playCount": {
+            "type": "number",
+            "nullable": true,
+            "example": 1000000
+          },
+          "language": {
+            "type": "string",
+            "example": "english"
+          },
+          "hasLyrics": {
+            "type": "boolean",
+            "example": true
+          },
+          "lyricsId": {
+            "type": "string",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "example": "https://www.jiosaavn.com/song/shape-of-you/xyz123"
+          },
+          "copyright": {
+            "type": "string",
+            "nullable": true
+          },
+          "album": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "nullable": true
+              },
+              "name": {
+                "type": "string",
+                "nullable": true
+              },
+              "url": {
+                "type": "string",
+                "nullable": true
+              }
+            }
+          },
+          "artists": {
+            "type": "object",
+            "properties": {
+              "primary": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              },
+              "featured": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              },
+              "all": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Artist"
+                }
+              }
+            }
+          },
+          "image": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadLink"
+            }
+          },
+          "downloadUrl": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DownloadLink"
+            }
+          }
+        }
+      },
+      "Lyrics": {
+        "type": "object",
+        "properties": {
+          "lyrics": {
+            "type": "string",
+            "example": "The club isn't the best place to find a lover..."
+          },
+          "copyright": {
+            "type": "string",
+            "example": "© 2017 Atlantic Records"
+          },
+          "snippet": {
+            "type": "string",
+            "example": "The club isn't the best place to find a lover..."
+          }
+        }
+      },
+      "DownloadLink": {
+        "type": "object",
+        "properties": {
+          "quality": {
+            "type": "string",
+            "example": "320kbps"
+          },
+          "link": {
+            "type": "string",
+            "example": "https://example.com/download/high-quality"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Resource not found"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "SortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "description": "Sort results by specified criteria",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "popularity",
+            "latest",
+            "alphabetical"
+          ]
+        }
+      },
+      "SortOrder": {
+        "name": "sortOrder",
+        "in": "query",
+        "description": "Sort order direction",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "asc",
+            "desc"
+          ]
+        }
+      },
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "description": "Page number for paginated results",
+        "schema": {
+          "type": "string",
+          "pattern": "^\\d+$"
+        }
+      },
+      "Query": {
+        "name": "query",
+        "in": "query",
+        "required": true,
+        "description": "Search term to find music content",
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "Limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Number of results per page",
+        "schema": {
+          "type": "string",
+          "pattern": "^\\d+$"
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/albums": {
+      "get": {
+        "summary": "Get album by ID or link",
+        "description": "Retrieve detailed information about an album using either its ID or a direct link.\nReturns comprehensive album data including track list, artist information, and metadata.\n",
+        "tags": [
+          "Albums"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Album ID"
+          },
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Direct link to album"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved album details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Album"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Album not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/artists": {
+      "get": {
+        "summary": "Get artist by ID or link",
+        "description": "Retrieve detailed information about an artist using either their ID or a direct link.\nIncludes top songs, albums, and similar artists with pagination support.\n",
+        "tags": [
+          "Artists"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Artist ID"
+          },
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Direct link to artist"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "in": "query",
+            "name": "songCount",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Number of songs to return"
+          },
+          {
+            "in": "query",
+            "name": "albumCount",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Number of albums to return"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved artist details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Artist not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/artists/{id}": {
+      "get": {
+        "summary": "Get artist by ID",
+        "description": "Retrieve detailed information about a specific artist using their ID.\nReturns comprehensive artist data including biography, statistics, and related content.\n",
+        "tags": [
+          "Artists"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the artist"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "in": "query",
+            "name": "songCount",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Number of songs to return"
+          },
+          {
+            "in": "query",
+            "name": "albumCount",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Number of albums to return"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved artist details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Artist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Artist not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/artists/{id}/songs": {
+      "get": {
+        "summary": "Get artist songs",
+        "description": "Retrieve a paginated list of songs by the artist.\nResults can be sorted by popularity, release date, or alphabetically.\n",
+        "tags": [
+          "Artists"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the artist"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved artist songs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Song"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Artist not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/artists/{id}/albums": {
+      "get": {
+        "summary": "Get artist albums",
+        "description": "Retrieve a paginated list of albums by the artist.\nResults can be sorted by popularity, release date, or alphabetically.\n",
+        "tags": [
+          "Artists"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the artist"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/SortBy"
+          },
+          {
+            "$ref": "#/components/parameters/SortOrder"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved artist albums",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Album"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Artist not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/playlists": {
+      "get": {
+        "summary": "Get playlist by ID or link",
+        "description": "Retrieve detailed information about a playlist using either its ID or a direct link.\nReturns comprehensive playlist data including track list and metadata with pagination support.\n",
+        "tags": [
+          "Playlists"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Playlist ID"
+          },
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Direct link to playlist"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Page number for paginated song results"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$"
+            },
+            "description": "Number of songs per page"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved playlist details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Playlist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Playlist not found"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/search": {
+      "get": {
+        "summary": "Search all content types",
+        "description": "Search across all content types (songs, albums, artists, playlists).\nReturns top matches for each category along with a \"top query\" section.\n",
+        "tags": [
+          "Search"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/SearchResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid search query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/search/songs": {
+      "get": {
+        "summary": "Search songs",
+        "description": "Search for songs with pagination support.\nResults are sorted by relevance to the search query.\n",
+        "tags": [
+          "Search"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Query"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved song search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Song"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/search/albums": {
+      "get": {
+        "summary": "Search albums",
+        "description": "Search for albums with pagination support.\nResults include album metadata and artist information.\n",
+        "tags": [
+          "Search"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Query"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved album search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Album"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/search/artists": {
+      "get": {
+        "summary": "Search artists",
+        "description": "Search for artists with pagination support.\nResults include artist profiles and related information.\n",
+        "tags": [
+          "Search"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Query"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved artist search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Artist"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/search/playlists": {
+      "get": {
+        "summary": "Search playlists",
+        "description": "Search for playlists with pagination support.\nResults include playlist details and track information.\n",
+        "tags": [
+          "Search"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Query"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/Limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved playlist search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Playlist"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/songs": {
+      "get": {
+        "summary": "Get songs by IDs or link",
+        "description": "Retrieve detailed information about songs using either their IDs or a direct link.\nThis endpoint supports batch retrieval of multiple songs when using IDs.\n",
+        "tags": [
+          "Songs"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "ids",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma-separated list of song IDs\nExample: \"abc123,def456\"\n"
+          },
+          {
+            "in": "query",
+            "name": "link",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Direct link to the song"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved song details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "oneOf": [
+                        {
+                          "$ref": "#/components/schemas/Song"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Song"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/songs/{id}": {
+      "get": {
+        "summary": "Get song by ID",
+        "description": "Retrieve detailed information about a specific song using its ID.\nOptionally include lyrics in the response by setting the lyrics query parameter.\n",
+        "tags": [
+          "Songs"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the song"
+          },
+          {
+            "in": "query",
+            "name": "lyrics",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ]
+            },
+            "description": "Include lyrics in the response"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved song details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "allOf": [
+                        {
+                          "$ref": "#/components/schemas/Song"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "lyrics": {
+                              "$ref": "#/components/schemas/Lyrics",
+                              "description": "Only included if lyrics=true"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Song not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/songs/{id}/lyrics": {
+      "get": {
+        "summary": "Get song lyrics",
+        "description": "Retrieve the lyrics for a specific song.\nReturns the complete lyrics text along with copyright information.\n",
+        "tags": [
+          "Songs"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the song"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved song lyrics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Lyrics"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Lyrics not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/songs/{id}/suggestions": {
+      "get": {
+        "summary": "Get song suggestions",
+        "description": "Get personalized song suggestions based on a specific song.\nReturns a list of similar songs that users might enjoy based on various factors\nincluding genre, artist, mood, and listening patterns.\n",
+        "tags": [
+          "Songs"
+        ],
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the song to get suggestions for"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d+$",
+              "minimum": 1,
+              "maximum": 50,
+              "default": "10"
+            },
+            "description": "Maximum number of suggestions to return (1-50)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved song suggestions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/Song"
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "similarity": {
+                                "type": "number",
+                                "format": "float",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "example": 0.89,
+                                "description": "Similarity score with the reference song"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing access token"
+          },
+          "404": {
+            "description": "Reference song not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many requests - Rate limit exceeded"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Albums",
+      "description": "Album management and retrieval endpoints"
+    },
+    {
+      "name": "Artists",
+      "description": "Artist management and retrieval endpoints"
+    },
+    {
+      "name": "Playlists",
+      "description": "Playlist management and retrieval endpoints"
+    },
+    {
+      "name": "Search",
+      "description": "Music content search endpoints"
+    },
+    {
+      "name": "Songs",
+      "description": "Music track management and retrieval endpoints"
+    }
+  ]
+}
