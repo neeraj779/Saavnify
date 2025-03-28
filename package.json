@@ -1,6 +1,8 @@
 {
   "name": "saavnify",
   "type": "module",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
   "scripts": {
     "dev": "bun run --hot src/index.ts",
     "dev:wrangler": "wrangler dev",
