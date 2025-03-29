@@ -29,6 +29,7 @@ export const Endpoints = {
 	},
 	discover: {
 		homeData: 'webapi.getLaunchData',
+		topSearches: 'content.getTopSearches',
 		topCharts: 'content.getCharts',
 		trending: 'content.getTrending',
 		topAlbums: 'content.getAlbums',

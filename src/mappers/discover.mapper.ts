@@ -18,6 +18,8 @@ import {
 	HomeDataAPIResponse,
 } from '@/schemas/discover/home-data.schema';
 import { mapCityModArtistResponse } from './artist.mapper';
+import { TopSearches } from '@/schemas/discover/top-searches';
+import { TopSearchesAPIResponse } from '@/schemas/discover/top-searches';
 
 export const mapNewReleaseResponse = (response: NewReleaseAPIResponse): NewReleaseSchemaDto => {
 	return {
@@ -115,4 +117,16 @@ export const mapHomeDataResponse = (response: HomeDataAPIResponse): HomeData => 
 			return mapCityModArtistResponse(item as CityModArtistAPIResponse);
 		}),
 	};
+};
+
+export const mapTopSearchesResponse = (response: TopSearchesAPIResponse): TopSearches => {
+	return response.map(item => ({
+		id: item.id,
+		title: item.title,
+		subtitle: item.subtitle,
+		type: item.type,
+		image: createImageLinks(item.image),
+		perma_url: item.perma_url,
+		explicit_content: item.explicit_content,
+	}));
 };

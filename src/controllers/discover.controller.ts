@@ -12,6 +12,11 @@ export class DiscoverController {
 		return c.json({ success: true, data: response });
 	};
 
+	public getTopSearches: Handler = async c => {
+		const response = await discoverService.getTopSearches();
+		return c.json({ success: true, data: response });
+	};
+
 	public getTopCharts: Handler = async c => {
 		const { page, limit } = paginationSchema.parse(c.req.query());
 		const response = await discoverService.getTopCharts({ page: page || 0, limit: limit || 10 });

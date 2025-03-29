@@ -6,7 +6,11 @@ import { PaginationParams, PlaylistParams, TrendingParams } from '@/types/discov
 import { TopArtists, TopArtistsAPIResponse } from '@/schemas/discover/top-artist.schema';
 import { NewReleaseAPIResponse } from '@/schemas/discover/new-release.schema';
 import { NewReleaseSchemaDto } from '@/schemas/discover/new-release.schema';
-import { mapNewReleaseResponse, mapTopPlaylistResponse } from '@/mappers/discover.mapper';
+import {
+	mapNewReleaseResponse,
+	mapTopPlaylistResponse,
+	mapTopSearchesResponse,
+} from '@/mappers/discover.mapper';
 import { TopChart, TopChartAPIResponse } from '@/schemas/discover/top-chart.schema';
 import { mapTopChartResponse } from '@/mappers/discover.mapper';
 import { mapTopArtistsResponse } from '@/mappers/discover.mapper';
@@ -16,6 +20,8 @@ import { TrendingSchema } from '@/schemas/discover/trending.schema';
 import { mapTrendingResponse } from '@/mappers/discover.mapper';
 import { HomeData, HomeDataAPIResponse } from '@/schemas/discover/home-data.schema';
 import { mapHomeDataResponse } from '@/mappers/discover.mapper';
+import { TopSearches } from '@/schemas/discover/top-searches';
+import { TopSearchesAPIResponse } from '@/schemas/discover/top-searches';
 
 export class DiscoverService {
 	async getHomeData(): Promise<HomeData> {
@@ -25,6 +31,15 @@ export class DiscoverService {
 
 		if (!data) throw AppError.NotFound(ErrorMessages.Discover.HOME_DATA_NOT_FOUND);
 		return mapHomeDataResponse(data);
+	}
+
+	async getTopSearches(): Promise<TopSearches> {
+		const { data } = await useFetch<TopSearchesAPIResponse>({
+			endpoint: Endpoints.discover.topSearches,
+		});
+
+		if (!data) throw AppError.NotFound(ErrorMessages.Discover.TOP_SEARCHES_NOT_FOUND);
+		return mapTopSearchesResponse(data);
 	}
 
 	async getTopCharts({ page, limit }: PaginationParams): Promise<TopChart> {

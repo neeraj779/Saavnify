@@ -21,6 +21,7 @@ export const ErrorMessages = {
 	},
 	Discover: {
 		HOME_DATA_NOT_FOUND: 'Home data could not be found',
+		TOP_SEARCHES_NOT_FOUND: 'Top searches data could not be found',
 		TOP_CHARTS_NOT_FOUND: 'Top charts data could not be found',
 		TRENDING_NOT_FOUND: 'Trending data could not be found',
 		TOP_ALBUMS_NOT_FOUND: 'Top albums data could not be found',
