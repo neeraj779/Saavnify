@@ -19,6 +19,14 @@ export const ErrorMessages = {
 	Search: {
 		NO_RESULTS: 'No results found for your search',
 	},
+	Discover: {
+		HOME_DATA_NOT_FOUND: 'Home data could not be found',
+		TOP_CHARTS_NOT_FOUND: 'Top charts data could not be found',
+		TRENDING_NOT_FOUND: 'Trending data could not be found',
+		TOP_ALBUMS_NOT_FOUND: 'Top albums data could not be found',
+		TOP_PLAYLISTS_NOT_FOUND: 'Top playlists data could not be found',
+		TOP_ARTISTS_NOT_FOUND: 'Top artists data could not be found',
+	},
 	System: {
 		GENERIC_JSON_ERROR: 'Unexpected end of JSON input',
 		UNKNOWN_ERROR: 'An unknown error occurred',

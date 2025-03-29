@@ -4,6 +4,7 @@ import { albumRoute } from './album.routes';
 import { songRoute } from './song.routes';
 import { playlistRoute } from './playlist.routes';
 import { apiDocRouter } from './api-doc.routes';
+import { discoverRoute } from './discover.routes';
 
 const base_path = 'api/v1';
 
@@ -31,5 +32,9 @@ export const routesConfig = [
 	{
 		path: `/${base_path}/playlists`,
 		route: playlistRoute,
+	},
+	{
+		path: `/${base_path}/discover`,
+		route: discoverRoute,
 	},
 ];
