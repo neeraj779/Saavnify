@@ -22,7 +22,7 @@ export const songLyricsQuerySchema = z.object({
 });
 
 export const songSuggestionsQuerySchema = z.object({
-	limit: z.string().optional(),
+	limit: z.string().pipe(z.coerce.number()).optional(),
 });
 
 export type SongByIdsOrLinkInput = z.infer<typeof songIdsOrLinkSchema>;

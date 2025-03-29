@@ -2,9 +2,9 @@ type SortBy = 'popularity' | 'latest' | 'alphabetical';
 type SortOrder = 'asc' | 'desc';
 
 interface PaginationAndSorting {
-	page?: string;
-	sortBy?: SortBy;
-	sortOrder?: SortOrder;
+	page: number;
+	sortBy: SortBy;
+	sortOrder: SortOrder;
 }
 
 interface ArtistIdentifier {
@@ -12,8 +12,8 @@ interface ArtistIdentifier {
 }
 
 interface Counts {
-	songCount?: string;
-	albumCount?: string;
+	songCount: number;
+	albumCount: number;
 }
 
 export interface GetArtistAlbums extends ArtistIdentifier, PaginationAndSorting {}

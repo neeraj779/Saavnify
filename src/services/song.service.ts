@@ -59,7 +59,7 @@ export class SongService {
 		return mapSongLyricsResponse(data);
 	}
 
-	async getSongSuggestions({ songId, limit = '10' }: GetSongSuggestions): Promise<Song[]> {
+	async getSongSuggestions({ songId, limit }: GetSongSuggestions): Promise<Song[]> {
 		const stationId = await this.createSongStation(songId);
 
 		const { data, ok } = await useFetch<SongSuggestionAPIResponse>({
@@ -81,7 +81,7 @@ export class SongService {
 			Object.values(suggestions)
 				.map(element => element && mapSongResponse(element.song))
 				.filter(Boolean)
-				.slice(0, parseInt(limit)) || []
+				.slice(0, limit) || []
 		);
 	}
 

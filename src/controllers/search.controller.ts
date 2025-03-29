@@ -11,25 +11,41 @@ export class SearchController {
 
 	public searchSongs: Handler = async c => {
 		const { query, page, limit } = searchPaginatedQuerySchema.parse(c.req.query());
-		const response = await searchService.searchSongs({ query, page, limit });
+		const response = await searchService.searchSongs({
+			query,
+			page: page || 0,
+			limit: limit || 10,
+		});
 		return c.json({ success: true, data: response });
 	};
 
 	public searchAlbums: Handler = async c => {
 		const { query, page, limit } = searchPaginatedQuerySchema.parse(c.req.query());
-		const response = await searchService.searchAlbums({ query, page, limit });
+		const response = await searchService.searchAlbums({
+			query,
+			page: page || 0,
+			limit: limit || 10,
+		});
 		return c.json({ success: true, data: response });
 	};
 
 	public searchArtists: Handler = async c => {
 		const { query, page, limit } = searchPaginatedQuerySchema.parse(c.req.query());
-		const response = await searchService.searchArtists({ query, page, limit });
+		const response = await searchService.searchArtists({
+			query,
+			page: page || 0,
+			limit: limit || 10,
+		});
 		return c.json({ success: true, data: response });
 	};
 
 	public searchPlaylists: Handler = async c => {
 		const { query, page, limit } = searchPaginatedQuerySchema.parse(c.req.query());
-		const response = await searchService.searchPlaylists({ query, page, limit });
+		const response = await searchService.searchPlaylists({
+			query,
+			page: page || 0,
+			limit: limit || 10,
+		});
 		return c.json({ success: true, data: response });
 	};
 }

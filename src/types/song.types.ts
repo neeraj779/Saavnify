@@ -5,5 +5,5 @@ export interface GetSongById {
 
 export interface GetSongSuggestions {
 	songId: string;
-	limit?: string;
+	limit: number;
 }

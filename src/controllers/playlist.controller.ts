@@ -9,13 +9,13 @@ export class PlaylistController {
 		const response = link
 			? await playlistService.getPlaylistByLink({
 					token: link,
-					page,
-					limit,
+					page: page || 0,
+					limit: limit || 10,
 				})
 			: await playlistService.getPlaylistById({
 					id: id!,
-					page,
-					limit,
+					page: page || 0,
+					limit: limit || 10,
 				});
 
 		return c.json({ success: true, data: response });

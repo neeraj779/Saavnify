@@ -18,11 +18,11 @@ import { ArtistAlbum, ArtistAlbumAPIResponse } from '@/schemas/artist/artist-alb
 export class ArtistService {
 	async getArtistById({
 		artistId,
-		page = '0',
-		songCount = '10',
-		albumCount = '10',
-		sortBy = 'popularity',
-		sortOrder = 'desc',
+		page,
+		songCount,
+		albumCount,
+		sortBy,
+		sortOrder,
 	}: GetArtistById): Promise<Artist> {
 		const { data } = await useFetch<ArtistAPIResponse>({
 			endpoint: Endpoints.artists.id,
@@ -43,11 +43,11 @@ export class ArtistService {
 
 	async getArtistByLink({
 		token,
-		page = '0',
-		songCount = '10',
-		albumCount = '10',
-		sortBy = 'popularity',
-		sortOrder = 'desc',
+		page,
+		songCount,
+		albumCount,
+		sortBy,
+		sortOrder,
 	}: GetArtistByLink): Promise<Artist> {
 		const { data } = await useFetch<ArtistAPIResponse>({
 			endpoint: Endpoints.artists.link,
@@ -67,12 +67,7 @@ export class ArtistService {
 		return mapArtistResponse(data);
 	}
 
-	async getArtistSongs({
-		artistId,
-		page = '0',
-		sortBy = 'popularity',
-		sortOrder = 'desc',
-	}: GetArtistSongs): Promise<ArtistSong> {
+	async getArtistSongs({ artistId, page, sortBy, sortOrder }: GetArtistSongs): Promise<ArtistSong> {
 		const { data } = await useFetch<ArtistSongAPIResponse>({
 			endpoint: Endpoints.artists.songs,
 			params: {
@@ -93,9 +88,9 @@ export class ArtistService {
 
 	async getArtistAlbums({
 		artistId,
-		page = '0',
-		sortBy = 'popularity',
-		sortOrder = 'desc',
+		page,
+		sortBy,
+		sortOrder,
 	}: GetArtistAlbums): Promise<ArtistAlbum> {
 		const { data } = await useFetch<ArtistAlbumAPIResponse>({
 			endpoint: Endpoints.artists.albums,

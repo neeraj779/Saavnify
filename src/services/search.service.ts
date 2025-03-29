@@ -28,7 +28,7 @@ export class SearchService {
 		return mapSearchResponse(data);
 	}
 
-	async searchSongs({ query, page = '0', limit = '10' }: SearchParams): Promise<SearchSong> {
+	async searchSongs({ query, page, limit }: SearchParams): Promise<SearchSong> {
 		const { data } = await useFetch<SearchSongAPIResponse>({
 			endpoint: Endpoints.search.songs,
 			params: {
@@ -41,11 +41,11 @@ export class SearchService {
 		return {
 			total: data.total,
 			start: data.start,
-			results: data.results?.map(mapSongResponse).slice(0, parseInt(limit)) || [],
+			results: data.results?.map(mapSongResponse).slice(0, limit) || [],
 		};
 	}
 
-	async searchAlbums({ query, page = '0', limit = '10' }: SearchParams): Promise<SearchAlbum> {
+	async searchAlbums({ query, page, limit }: SearchParams): Promise<SearchAlbum> {
 		const { data } = await useFetch<SearchAlbumAPIResponse>({
 			endpoint: Endpoints.search.albums,
 			params: {
@@ -58,7 +58,7 @@ export class SearchService {
 		return mapSearchAlbumResponse(data);
 	}
 
-	async searchArtists({ query, page = '0', limit = '10' }: SearchParams): Promise<SearchArtist> {
+	async searchArtists({ query, page, limit }: SearchParams): Promise<SearchArtist> {
 		const { data } = await useFetch<SearchArtistAPIResponse>({
 			endpoint: Endpoints.search.artists,
 			params: {
@@ -73,15 +73,11 @@ export class SearchService {
 		return {
 			total: data.total,
 			start: data.start,
-			results: data.results?.map(mapArtistMapResponse).slice(0, parseInt(limit)) || [],
+			results: data.results?.map(mapArtistMapResponse).slice(0, limit) || [],
 		};
 	}
 
-	async searchPlaylists({
-		query,
-		page = '0',
-		limit = '10',
-	}: SearchParams): Promise<SearchPlaylist> {
+	async searchPlaylists({ query, page, limit }: SearchParams): Promise<SearchPlaylist> {
 		const { data } = await useFetch<SearchPlaylistAPIResponse>({
 			endpoint: Endpoints.search.playlists,
 			params: {

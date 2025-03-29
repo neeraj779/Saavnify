@@ -1,6 +1,6 @@
 interface PaginationParams {
-	limit?: number;
-	page?: number;
+	limit: number;
+	page: number;
 }
 
 export interface GetPlaylistById extends PaginationParams {

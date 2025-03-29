@@ -6,8 +6,8 @@ export const searchQuerySchema = z.object({
 
 export const searchPaginatedQuerySchema = z.object({
 	query: z.string().min(1, 'Search query cannot be empty'),
-	page: z.string().optional(),
-	limit: z.string().optional(),
+	page: z.string().pipe(z.coerce.number()).optional(),
+	limit: z.string().pipe(z.coerce.number()).optional(),
 });
 
 export type searchQueryInput = z.infer<typeof searchQuerySchema>;

@@ -7,7 +7,7 @@ import { GetPlaylistById, GetPlaylistByLink } from '@/types/playlist.types';
 import { mapPlaylistResponse } from '@/mappers/playlist.mapper';
 
 export class PlaylistService {
-	async getPlaylistById({ id, page = 0, limit = 10 }: GetPlaylistById): Promise<Playlist> {
+	async getPlaylistById({ id, page, limit }: GetPlaylistById): Promise<Playlist> {
 		const { data } = await useFetch<PlaylistAPIResponse>({
 			endpoint: Endpoints.playlists.id,
 			params: {
@@ -27,7 +27,7 @@ export class PlaylistService {
 		};
 	}
 
-	async getPlaylistByLink({ token, page = 0, limit = 10 }: GetPlaylistByLink): Promise<Playlist> {
+	async getPlaylistByLink({ token, page, limit }: GetPlaylistByLink): Promise<Playlist> {
 		const { data } = await useFetch<PlaylistAPIResponse>({
 			endpoint: Endpoints.albums.link,
 			params: {

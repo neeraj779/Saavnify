@@ -8,8 +8,15 @@ import {
 
 export class ArtistController {
 	public getArtistByIdOrLink: Handler = async c => {
-		const { link, id, page, sortBy, sortOrder, songCount, albumCount } =
-			artistByIdOrLinkSchema.parse(c.req.query());
+		const {
+			link,
+			id,
+			page = 0,
+			sortBy = 'popularity',
+			sortOrder = 'asc',
+			songCount = 10,
+			albumCount = 10,
+		} = artistByIdOrLinkSchema.parse(c.req.query());
 
 		const response = link
 			? await artistService.getArtistByLink({
@@ -40,11 +47,11 @@ export class ArtistController {
 
 		const response = await artistService.getArtistById({
 			artistId: id,
-			page,
-			songCount,
-			albumCount,
-			sortBy,
-			sortOrder,
+			page: page || 0,
+			songCount: songCount || 10,
+			albumCount: albumCount || 10,
+			sortBy: sortBy || 'popularity',
+			sortOrder: sortOrder || 'asc',
 		});
 
 		return c.json({ success: true, data: response });
@@ -56,9 +63,9 @@ export class ArtistController {
 
 		const response = await artistService.getArtistSongs({
 			artistId: id,
-			page,
-			sortBy,
-			sortOrder,
+			page: page || 0,
+			sortBy: sortBy || 'popularity',
+			sortOrder: sortOrder || 'desc',
 		});
 
 		return c.json({ success: true, data: response });
@@ -70,9 +77,9 @@ export class ArtistController {
 
 		const response = await artistService.getArtistAlbums({
 			artistId: id,
-			page,
-			sortBy,
-			sortOrder,
+			page: page || 0,
+			sortBy: sortBy || 'popularity',
+			sortOrder: sortOrder || 'desc',
 		});
 
 		return c.json({ success: true, data: response });

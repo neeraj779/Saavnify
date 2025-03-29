@@ -44,7 +44,7 @@ export class SongController {
 		const { limit } = songSuggestionsQuerySchema.parse(c.req.query());
 		const response = await songService.getSongSuggestions({
 			songId: id,
-			limit,
+			limit: limit || 10,
 		});
 
 		return c.json({ success: true, data: response });
