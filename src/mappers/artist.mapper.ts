@@ -2,6 +2,8 @@ import { createImageLinks } from '@/utils/link.util';
 import { mapAlbumResponse } from './album.mapper';
 import { mapSongResponse } from './song.mapper';
 import type { Artist, ArtistAPIResponse, ArtistMap, ArtistMapAPIResponse } from '@/schemas/artist';
+import { CityModArtistAPIResponse } from '@/schemas/discover/home-data.schema';
+import { CityModArtist } from '@/schemas/discover/home-data.schema';
 
 export const mapArtistResponse = (artist: ArtistAPIResponse): Artist => ({
 	id: artist.artistId || artist.id,
@@ -51,4 +53,16 @@ export const mapArtistMapResponse = (artist: ArtistMapAPIResponse): ArtistMap =>
 	image: createImageLinks(artist.image),
 	type: artist.type,
 	url: artist.perma_url,
+});
+
+export const mapCityModArtistResponse = (artist: CityModArtistAPIResponse): CityModArtist => ({
+	id: artist.id,
+	title: artist.title,
+	image: createImageLinks(artist.image),
+	type: artist.type,
+	perma_url: artist.perma_url,
+	subtitle: artist.subtitle,
+	secondary_subtitle: artist.secondary_subtitle,
+	more_info: artist.more_info,
+	mini_obj: artist.mini_obj,
 });

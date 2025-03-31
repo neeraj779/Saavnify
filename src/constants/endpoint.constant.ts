@@ -27,6 +27,14 @@ export const Endpoints = {
 		id: 'playlist.getDetails',
 		link: 'webapi.get',
 	},
-	modules: 'content.getBrowseModules',
-	trending: 'content.getTrending',
+	discover: {
+		homeData: 'webapi.getLaunchData',
+		topSearches: 'content.getTopSearches',
+		topCharts: 'content.getCharts',
+		trending: 'content.getTrending',
+		topAlbums: 'content.getAlbums',
+		topPlaylists: 'content.getFeaturedPlaylists',
+		topArtists: 'social.getTopArtists',
+	},
+	modules: 'webapi.getModules',
 };
