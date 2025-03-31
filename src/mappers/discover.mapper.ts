@@ -90,9 +90,13 @@ export const mapHomeDataResponse = (response: HomeDataAPIResponse): HomeData => 
 		playlist: mapPlaylistResponse,
 	};
 
-	const songs = response.new_trending.filter(item => item.type === 'song') as SongAPIResponse[];
-	const albums = response.new_trending.filter(item => item.type === 'album') as AlbumAPIResponse[];
-	const playlists = response.new_trending.filter(
+	const songs = (response.new_trending || []).filter(
+		item => item.type === 'song',
+	) as SongAPIResponse[];
+	const albums = (response.new_trending || []).filter(
+		item => item.type === 'album',
+	) as AlbumAPIResponse[];
+	const playlists = (response.new_trending || []).filter(
 		item => item.type === 'playlist',
 	) as PlaylistAPIResponse[];
 
@@ -102,12 +106,12 @@ export const mapHomeDataResponse = (response: HomeDataAPIResponse): HomeData => 
 		...playlists.map(typeMapper.playlist),
 	];
 
-	const top_playlists = response.top_playlists.map(mapPlaylistResponse);
+	const top_playlists = (response.top_playlists || []).map(mapPlaylistResponse);
 
-	const new_albums_songs = response.new_albums.filter(
+	const new_albums_songs = (response.new_albums || []).filter(
 		item => item.type === 'song',
 	) as SongAPIResponse[];
-	const new_albums_albums = response.new_albums.filter(
+	const new_albums_albums = (response.new_albums || []).filter(
 		item => item.type === 'album',
 	) as AlbumAPIResponse[];
 	const new_albums = [
@@ -115,18 +119,18 @@ export const mapHomeDataResponse = (response: HomeDataAPIResponse): HomeData => 
 		...new_albums_albums.map(typeMapper.album),
 	];
 
-	const charts = mapTopChartResponse(response.charts);
+	const charts = response.charts ? mapTopChartResponse(response.charts) : [];
 
-	const city_mod_songs = response.city_mod.filter(
+	const city_mod_songs = (response.city_mod || []).filter(
 		item => item.type === 'song',
 	) as SongAPIResponse[];
-	const city_mod_playlists = response.city_mod.filter(
+	const city_mod_playlists = (response.city_mod || []).filter(
 		item => item.type === 'playlist',
 	) as PlaylistAPIResponse[];
-	const city_mod_albums = response.city_mod.filter(
+	const city_mod_albums = (response.city_mod || []).filter(
 		item => item.type === 'album',
 	) as AlbumAPIResponse[];
-	const city_mod_artists = response.city_mod.filter(
+	const city_mod_artists = (response.city_mod || []).filter(
 		item => item.type === 'artist',
 	) as CityModArtistAPIResponse[];
 
