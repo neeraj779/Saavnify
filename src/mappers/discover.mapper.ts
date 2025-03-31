@@ -84,38 +84,65 @@ export const mapTrendingResponse = (response: TrendingAPIResponse): TrendingSche
 };
 
 export const mapHomeDataResponse = (response: HomeDataAPIResponse): HomeData => {
+	const typeMapper = {
+		song: mapSongResponse,
+		album: mapAlbumResponse,
+		playlist: mapPlaylistResponse,
+	};
+
+	const songs = response.new_trending.filter(item => item.type === 'song') as SongAPIResponse[];
+	const albums = response.new_trending.filter(item => item.type === 'album') as AlbumAPIResponse[];
+	const playlists = response.new_trending.filter(
+		item => item.type === 'playlist',
+	) as PlaylistAPIResponse[];
+
+	const new_trending = [
+		...songs.map(typeMapper.song),
+		...albums.map(typeMapper.album),
+		...playlists.map(typeMapper.playlist),
+	];
+
+	const top_playlists = response.top_playlists.map(mapPlaylistResponse);
+
+	const new_albums_songs = response.new_albums.filter(
+		item => item.type === 'song',
+	) as SongAPIResponse[];
+	const new_albums_albums = response.new_albums.filter(
+		item => item.type === 'album',
+	) as AlbumAPIResponse[];
+	const new_albums = [
+		...new_albums_songs.map(typeMapper.song),
+		...new_albums_albums.map(typeMapper.album),
+	];
+
+	const charts = mapTopChartResponse(response.charts);
+
+	const city_mod_songs = response.city_mod.filter(
+		item => item.type === 'song',
+	) as SongAPIResponse[];
+	const city_mod_playlists = response.city_mod.filter(
+		item => item.type === 'playlist',
+	) as PlaylistAPIResponse[];
+	const city_mod_albums = response.city_mod.filter(
+		item => item.type === 'album',
+	) as AlbumAPIResponse[];
+	const city_mod_artists = response.city_mod.filter(
+		item => item.type === 'artist',
+	) as CityModArtistAPIResponse[];
+
+	const city_mod = [
+		...city_mod_songs.map(typeMapper.song),
+		...city_mod_playlists.map(typeMapper.playlist),
+		...city_mod_albums.map(typeMapper.album),
+		...city_mod_artists.map(mapCityModArtistResponse),
+	];
+
 	return {
-		new_trending: response.new_trending.map(item => {
-			if (item.type === 'song') {
-				return mapSongResponse(item as SongAPIResponse);
-			}
-			if (item.type === 'album') {
-				return mapAlbumResponse(item as AlbumAPIResponse);
-			}
-			return mapPlaylistResponse(item as PlaylistAPIResponse);
-		}),
-		top_playlists: response.top_playlists.map(item =>
-			mapPlaylistResponse(item as PlaylistAPIResponse),
-		),
-		new_albums: response.new_albums.map(item => {
-			if (item.type === 'song') {
-				return mapSongResponse(item as SongAPIResponse);
-			}
-			return mapAlbumResponse(item as AlbumAPIResponse);
-		}),
-		charts: mapTopChartResponse(response.charts),
-		city_mod: response.city_mod.map(item => {
-			if (item.type === 'song') {
-				return mapSongResponse(item as SongAPIResponse);
-			}
-			if (item.type === 'playlist') {
-				return mapPlaylistResponse(item as PlaylistAPIResponse);
-			}
-			if (item.type === 'album') {
-				return mapAlbumResponse(item as AlbumAPIResponse);
-			}
-			return mapCityModArtistResponse(item as CityModArtistAPIResponse);
-		}),
+		new_trending,
+		top_playlists,
+		new_albums,
+		charts,
+		city_mod,
 	};
 };
 
