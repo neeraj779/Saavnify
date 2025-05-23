@@ -5,5 +5,6 @@ const route = new Hono();
 const playlistController = new PlaylistController();
 
 route.get('/', playlistController.getPlaylistByIdOrLink);
+route.get('/recommend', playlistController.getRecommendations);
 
 export const playlistRoute = route;

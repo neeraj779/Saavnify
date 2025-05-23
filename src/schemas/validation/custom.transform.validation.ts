@@ -17,3 +17,31 @@ export function extractArtistId(value?: string): string | undefined {
 	if (!value) return undefined;
 	return value.match(/jiosaavn\.com\/artist\/[^/]+\/([^/]+)$/)?.[1];
 }
+
+const validLanguages = [
+	'hindi',
+	'english',
+	'punjabi',
+	'tamil',
+	'telugu',
+	'marathi',
+	'gujarati',
+	'bengali',
+	'kannada',
+	'bhojpuri',
+	'malayalam',
+	'urdu',
+	'haryanvi',
+	'rajasthani',
+	'odia',
+	'assamese',
+];
+
+export const filterValidLangs = (langs: string | undefined): string => {
+	if (!langs) return '';
+	return langs
+		.split(',')
+		.map(l => l.trim().toLowerCase())
+		.filter(l => validLanguages.includes(l))
+		.join(',');
+};

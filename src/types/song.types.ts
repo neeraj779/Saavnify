@@ -1,9 +1,14 @@
 export interface GetSongById {
 	songIds: string;
-	includeLyrics?: boolean;
+	link?: string;
+	token?: string;
+	mini?: boolean;
+	raw?: boolean;
 }
 
 export interface GetSongSuggestions {
-	songId: string;
-	limit: number;
+	id: string;
+	lang?: string;
+	mini?: boolean;
+	raw?: boolean;
 }

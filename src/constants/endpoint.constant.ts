@@ -1,40 +1,72 @@
 export const Endpoints = {
+	homeModules: {
+		launch_data: 'webapi.getLaunchData',
+		browse_modules: 'content.getBrowseModules',
+	},
+
+	song: {
+		id: 'song.getDetails',
+		link: 'webapi.get',
+		recommend: 'reco.getreco',
+		lyrics: 'lyrics.getLyrics',
+	},
+
+	album: {
+		id: 'content.getAlbumDetails',
+		link: 'webapi.get',
+		recommend: 'reco.getAlbumReco',
+		same_year: 'search.topAlbumsoftheYear',
+	},
+
+	playlist: {
+		id: 'playlist.getDetails',
+		link: 'webapi.get',
+		recommend: 'reco.getPlaylistReco',
+	},
+
+	artist: {
+		id: 'artist.getArtistPageDetails',
+		link: 'webapi.get',
+		songs: 'artist.getArtistMoreSong',
+		albums: 'artist.getArtistMoreAlbum',
+		top_songs: 'search.artistOtherTopSongs',
+	},
+
 	search: {
+		top_search: 'content.getTopSearches',
 		all: 'autocomplete.get',
 		songs: 'search.getResults',
 		albums: 'search.getAlbumResults',
 		artists: 'search.getArtistResults',
 		playlists: 'search.getPlaylistResults',
+		more: 'search.getMoreResults',
 	},
-	songs: {
-		id: 'song.getDetails',
-		link: 'webapi.get',
-		suggestions: 'webradio.getSong',
-		lyrics: 'lyrics.getLyrics',
-		station: 'webradio.createEntityStation',
+
+	radio: {
+		featured: 'webradio.createFeaturedStation',
+		artist: 'webradio.createArtistStation',
+		entity: 'webradio.createEntityStation',
+		songs: 'webradio.getSong',
 	},
-	albums: {
-		id: 'content.getAlbumDetails',
-		link: 'webapi.get',
+
+	show: {
+		show_details: 'webapi.get',
+		episodes: 'show.getAllEpisodes',
+		episode_details: 'webapi.get',
 	},
-	artists: {
-		id: 'artist.getArtistPageDetails',
-		link: 'webapi.get',
-		songs: 'artist.getArtistMoreSong',
-		albums: 'artist.getArtistMoreAlbum',
-	},
-	playlists: {
-		id: 'playlist.getDetails',
-		link: 'webapi.get',
-	},
-	discover: {
-		homeData: 'webapi.getLaunchData',
-		topSearches: 'content.getTopSearches',
-		topCharts: 'content.getCharts',
+
+	explore: {
 		trending: 'content.getTrending',
-		topAlbums: 'content.getAlbums',
-		topPlaylists: 'content.getFeaturedPlaylists',
-		topArtists: 'social.getTopArtists',
+		featured_playlists: 'content.getFeaturedPlaylists',
+		charts: 'content.getCharts',
+		top_shows: 'content.getTopShows',
+		top_artists: 'social.getTopArtists',
+		top_albums: 'content.getAlbums',
+		mix_details: 'webapi.get',
+		label_details: 'webapi.get',
+		featured_stations: 'webradio.getFeaturedStations',
+		actor_top_songs: 'search.actorOtherTopSongs',
+		footer_details: 'webapi.getFooterDetails',
+		mega_menu: 'webapi.getBrowseHoverDetails',
 	},
-	modules: 'webapi.getModules',
 };

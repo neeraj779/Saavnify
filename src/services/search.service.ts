@@ -2,94 +2,148 @@ import { useFetch } from '@/utils/fetch.util';
 import { Endpoints } from '@/constants/endpoint.constant';
 import { ErrorMessages } from '@/constants/error.constant';
 import { AppError } from '@/types/error.types';
-import { mapSongResponse } from '@/mappers/song.mapper';
-import { mapArtistMapResponse } from '@/mappers/artist.mapper';
+import { SearchPath } from '@/constants/search.constant';
+import { AllSearch, TopSearch, PodcastSearch } from '@/types/internal/search.types';
 import {
-	mapSearchAlbumResponse,
-	mapSearchPlaylistResponse,
-	mapSearchResponse,
-} from '@/mappers/search.mapper';
-import { SearchParams } from '@/types/search.types';
-import { Search, SearchAPIResponse } from '@/schemas/search/search.schema';
-import { SearchSong, SearchSongAPIResponse } from '@/schemas/search/search-song.schema';
-import { SearchArtist, SearchArtistAPIResponse } from '@/schemas/search/search-artist.schema';
-import { SearchAlbum, SearchAlbumAPIResponse } from '@/schemas/search/search-album.schema';
-import { SearchPlaylist, SearchPlaylistAPIResponse } from '@/schemas/search/search-playlist.schema';
+	SourceAllSearch,
+	SourceTopSearch,
+	SourceSongSearch,
+	SourceAlbumSearch,
+	SourcePlaylistSearch,
+	SourceArtistSearch,
+	SourcePodcastSearch,
+} from '@/types/external/search.types';
+import {
+	allSearchPayload,
+	topSearchesPayload,
+	songSearchPayload,
+	albumSearchPayload,
+	playlistSearchPayload,
+	artistSearchPayload,
+	podcastsSearchPayload,
+} from '@/payloads/search.mapper';
 
 export class SearchService {
-	async searchAll(query: string): Promise<Search> {
-		const { data } = await useFetch<SearchAPIResponse>({
+	async searchAll(query: string, raw = false): Promise<AllSearch | SourceAllSearch> {
+		const data = await useFetch<SourceAllSearch>({
 			endpoint: Endpoints.search.all,
 			params: { query },
+			isVersion4: false,
 		});
 
-		if (!data) throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
+		if (!data.albums) {
+			throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
+		}
 
-		return mapSearchResponse(data);
+		if (raw) return data;
+
+		return allSearchPayload(data);
 	}
 
-	async searchSongs({ query, page, limit }: SearchParams): Promise<SearchSong> {
-		const { data } = await useFetch<SearchSongAPIResponse>({
-			endpoint: Endpoints.search.songs,
-			params: {
-				q: query,
-				p: page,
-				n: limit,
-			},
+	async getTopSearches(raw = false): Promise<TopSearch[] | SourceTopSearch[]> {
+		const data = await useFetch<SourceTopSearch[]>({
+			endpoint: Endpoints.search.top_search,
 		});
 
-		return {
-			total: data.total,
-			start: data.start,
-			results: data.results?.map(mapSongResponse).slice(0, limit) || [],
+		if (!data.length) {
+			throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
+		}
+
+		if (raw) return data;
+
+		return data.map(topSearchesPayload);
+	}
+
+	async searchByType(
+		path: SearchPath,
+		query: string,
+		page = 1,
+		limit = 50,
+		raw = false,
+		mini = false,
+	) {
+		// Define result types
+		type SourceType =
+			| SourceSongSearch
+			| SourceAlbumSearch
+			| SourcePlaylistSearch
+			| SourceArtistSearch;
+
+		// Define payload function type
+		type PayloadFunction = <T, U>(data: T, mini?: boolean) => Required<U>;
+
+		// Define search configuration map
+		const searchConfig: Record<
+			SearchPath,
+			{
+				endpoint: string;
+				payloadFn: PayloadFunction;
+			}
+		> = {
+			songs: {
+				endpoint: Endpoints.search.songs,
+				payloadFn: songSearchPayload as PayloadFunction,
+			},
+			albums: {
+				endpoint: Endpoints.search.albums,
+				payloadFn: albumSearchPayload as PayloadFunction,
+			},
+			playlists: {
+				endpoint: Endpoints.search.playlists,
+				payloadFn: playlistSearchPayload as PayloadFunction,
+			},
+			artists: {
+				endpoint: Endpoints.search.artists,
+				payloadFn: artistSearchPayload as PayloadFunction,
+			},
 		};
+
+		// Get config based on path
+		const config = searchConfig[path];
+
+		// Fetch data with proper typing
+		const data = await useFetch<SourceType>({
+			endpoint: config.endpoint,
+			params: { q: query, p: page, n: limit },
+		});
+
+		// Check if results exist
+		if (!data.results?.length) {
+			throw new AppError(ErrorMessages.Search.NO_RESULTS);
+		}
+
+		// Return raw data if requested
+		if (raw) {
+			return data;
+		}
+
+		// Process and return the payload
+		return config.payloadFn(data, mini);
 	}
 
-	async searchAlbums({ query, page, limit }: SearchParams): Promise<SearchAlbum> {
-		const { data } = await useFetch<SearchAlbumAPIResponse>({
-			endpoint: Endpoints.search.albums,
+	async searchPodcasts(
+		query: string,
+		page = 1,
+		limit = 50,
+		raw = false,
+	): Promise<PodcastSearch | SourcePodcastSearch> {
+		const data = await useFetch<SourcePodcastSearch>({
+			endpoint: Endpoints.search.more,
 			params: {
-				q: query,
+				query,
 				p: page,
 				n: limit,
+				params: '{ "type": "podcasts" }',
 			},
 		});
 
-		return mapSearchAlbumResponse(data);
-	}
+		if (!data.results.length) {
+			throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
+		}
 
-	async searchArtists({ query, page, limit }: SearchParams): Promise<SearchArtist> {
-		const { data } = await useFetch<SearchArtistAPIResponse>({
-			endpoint: Endpoints.search.artists,
-			params: {
-				q: query,
-				p: page,
-				n: limit,
-			},
-		});
+		if (raw) return data;
 
-		if (!data) throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
-
-		return {
-			total: data.total,
-			start: data.start,
-			results: data.results?.map(mapArtistMapResponse).slice(0, limit) || [],
-		};
-	}
-
-	async searchPlaylists({ query, page, limit }: SearchParams): Promise<SearchPlaylist> {
-		const { data } = await useFetch<SearchPlaylistAPIResponse>({
-			endpoint: Endpoints.search.playlists,
-			params: {
-				q: query,
-				p: page,
-				n: limit,
-			},
-		});
-
-		if (!data) throw AppError.NotFound(ErrorMessages.Search.NO_RESULTS);
-
-		return mapSearchPlaylistResponse(data);
+		return podcastsSearchPayload(data);
 	}
 }
 

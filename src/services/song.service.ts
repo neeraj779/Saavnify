@@ -3,52 +3,38 @@ import { useFetch } from '@/utils/fetch.util';
 import { Endpoints } from '@/constants/endpoint.constant';
 import { ErrorMessages } from '@/constants/error.constant';
 import { AppError } from '@/types/error.types';
-import { mapSongLyricsResponse, mapSongResponse } from '@/mappers/song.mapper';
-import { Song, SongAPIResponse } from '@/schemas/song/song.schema';
-import { Lyrics, LyricsAPIResponse } from '@/schemas/song/song-lyrics.schema';
-import { SongSuggestionAPIResponse } from '@/schemas/song/song-suggestion.schema';
+import { SongObject, SongsResponse } from '@/types/internal/song.types';
+import { SourceSong, SourceSongObject } from '@/types/external/song.types';
+import { songObjPayload, songPayload } from '@/payloads/song.mapper';
+import { SourceLyrics } from '@/types/external/explore.types';
+import { LyricsResponse } from '@/types/internal/explore.types';
 
 export class SongService {
-	async getSongByIds({ songIds, includeLyrics = false }: GetSongById): Promise<Song[]> {
-		const { data } = await useFetch<{ songs: SongAPIResponse[] }>({
-			endpoint: Endpoints.songs.id,
+	async getSongByIdsOrLink({
+		songIds,
+		link,
+		token,
+		mini = false,
+		raw = false,
+	}: GetSongById): Promise<SongObject | SourceSongObject> {
+		const data = await useFetch<SourceSongObject>({
+			endpoint: songIds ? Endpoints.song.id : Endpoints.song.link,
 			params: {
 				pids: songIds,
-			},
-		});
-
-		if (!data.songs?.length) throw AppError.NotFound(ErrorMessages.Song.NOT_FOUND);
-
-		const songs = data.songs.map(song => mapSongResponse(song));
-
-		if (includeLyrics) {
-			await Promise.all(
-				songs.map(async song => {
-					song.lyrics = await this.getSongLyrics(song.id);
-				}),
-			);
-		}
-
-		return songs;
-	}
-
-	async getSongByLink(token: string): Promise<Song[]> {
-		const { data } = await useFetch<{ songs: SongAPIResponse[] }>({
-			endpoint: Endpoints.songs.link,
-			params: {
-				token,
+				token: token ? token : link,
 				type: 'song',
 			},
 		});
 
-		if (!data.songs?.length) throw AppError.NotFound(ErrorMessages.Song.NOT_FOUND);
+		if (!('songs' in data)) throw AppError.NotFound(ErrorMessages.Song.NOT_FOUND);
 
-		return data.songs.map(song => mapSongResponse(song));
+		if (raw) return data;
+		return songObjPayload(data, mini);
 	}
 
-	async getSongLyrics(songId: string): Promise<Lyrics> {
-		const { data } = await useFetch<LyricsAPIResponse>({
-			endpoint: Endpoints.songs.lyrics,
+	async getSongLyrics(songId: string, raw = false): Promise<LyricsResponse | SourceLyrics> {
+		const data = await useFetch<SourceLyrics>({
+			endpoint: Endpoints.song.lyrics,
 			params: {
 				lyrics_id: songId,
 			},
@@ -56,51 +42,31 @@ export class SongService {
 
 		if (!data.lyrics) throw AppError.NotFound(ErrorMessages.Song.LYRICS_NOT_FOUND);
 
-		return mapSongLyricsResponse(data);
+		if (raw) return data;
+
+		return data;
 	}
 
-	async getSongSuggestions({ songId, limit }: GetSongSuggestions): Promise<Song[]> {
-		const stationId = await this.createSongStation(songId);
-
-		const { data, ok } = await useFetch<SongSuggestionAPIResponse>({
-			endpoint: Endpoints.songs.suggestions,
+	async getSongSuggestions({
+		id: pid,
+		lang = '',
+		raw = false,
+		mini = false,
+	}: GetSongSuggestions): Promise<SongsResponse | SourceSong[]> {
+		const data = await useFetch<SourceSong[]>({
+			endpoint: Endpoints.song.recommend,
 			params: {
-				stationid: stationId,
-				k: limit,
+				pid,
+				language: lang,
 			},
-			context: 'android',
 		});
 
-		if (!data || !ok) {
+		if (!data) {
 			throw AppError.NotFound(ErrorMessages.Song.SUGGESTIONS_NOT_FOUND);
 		}
 
-		const { stationid: _stationid, ...suggestions } = data;
-
-		return (
-			Object.values(suggestions)
-				.map(element => element && mapSongResponse(element.song))
-				.filter(Boolean)
-				.slice(0, limit) || []
-		);
-	}
-
-	private async createSongStation(songId: string): Promise<string> {
-		const encodedSongId = JSON.stringify([encodeURIComponent(songId)]);
-
-		const { data, ok } = await useFetch<{ stationid: string }>({
-			endpoint: Endpoints.songs.station,
-			params: {
-				entity_id: encodedSongId,
-				entity_type: 'queue',
-			},
-			context: 'android',
-		});
-
-		if (!data || !ok || !data.stationid)
-			throw AppError.InternalError(ErrorMessages.Song.STATION_CREATION_FAILED);
-
-		return data.stationid;
+		if (raw) return data;
+		return data.map(s => songPayload(s, mini));
 	}
 }
 

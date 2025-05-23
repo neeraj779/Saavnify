@@ -5,13 +5,10 @@ const route = new Hono();
 const searchController = new SearchController();
 
 route.get('/', searchController.searchAll);
+route.get('/top', searchController.getTopSearches);
 
-route.get('/songs', searchController.searchSongs);
+route.get('/:path{(songs|albums|playlists|artists)}', searchController.searchByType);
 
-route.get('/albums', searchController.searchAlbums);
-
-route.get('/artists', searchController.searchArtists);
-
-route.get('/playlists', searchController.searchPlaylists);
+route.get('/podcasts', searchController.searchPodcasts);
 
 export const searchRoute = route;

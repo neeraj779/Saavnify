@@ -6,8 +6,6 @@ const songController = new SongController();
 
 route.get('/', songController.getSongByIdsOrLink);
 
-route.get('/:id', songController.getSongById);
-
 route.get('/:id/lyrics', songController.getSongLyrics);
 
 route.get('/:id/suggestions', songController.getSongSuggestions);

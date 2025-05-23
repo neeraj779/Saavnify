@@ -2,51 +2,54 @@ import { useFetch } from '@/utils/fetch.util';
 import { Endpoints } from '@/constants/endpoint.constant';
 import { ErrorMessages } from '@/constants/error.constant';
 import { AppError } from '@/types/error.types';
-import { Playlist, PlaylistAPIResponse } from '@/schemas/playlist.schema';
-import { GetPlaylistById, GetPlaylistByLink } from '@/types/playlist.types';
-import { mapPlaylistResponse } from '@/mappers/playlist.mapper';
+import { Playlist } from '@/types/internal/playlist.types';
+import { SourcePlaylist } from '@/types/external/playlist.types';
+import { playlistPayload } from '@/payloads/playlist.mapper';
 
 export class PlaylistService {
-	async getPlaylistById({ id, page, limit }: GetPlaylistById): Promise<Playlist> {
-		const { data } = await useFetch<PlaylistAPIResponse>({
-			endpoint: Endpoints.playlists.id,
+	async getPlaylistByIdOrLink({
+		id = '',
+		link = '',
+		token = '',
+		raw = false,
+		mini = false,
+	}): Promise<Playlist | SourcePlaylist> {
+		const data = await useFetch<SourcePlaylist>({
+			endpoint: id ? Endpoints.playlist.id : Endpoints.playlist.link,
 			params: {
 				listid: id,
-				n: limit,
-				p: page,
+				token: token ? token : link,
+				type: 'playlist',
+				p: '1',
+				n: '50',
 			},
 		});
 
-		if (!data) throw AppError.NotFound(ErrorMessages.Playlist.NOT_FOUND);
+		if (!data.id) throw AppError.NotFound(ErrorMessages.Playlist.NOT_FOUND);
 
-		const playlist = mapPlaylistResponse(data);
-		return {
-			...playlist,
-			songCount: playlist?.songs?.length || null,
-			songs: playlist?.songs?.slice(0, limit) || [],
-		};
+		if (raw) return data;
+
+		return playlistPayload(data, mini);
 	}
 
-	async getPlaylistByLink({ token, page, limit }: GetPlaylistByLink): Promise<Playlist> {
-		const { data } = await useFetch<PlaylistAPIResponse>({
-			endpoint: Endpoints.albums.link,
-			params: {
-				token,
-				n: limit,
-				p: page,
-				type: 'playlist',
-			},
+	async getRecommendations(
+		id: string,
+		lang = '',
+		raw = false,
+		mini = false,
+	): Promise<Playlist[] | SourcePlaylist[]> {
+		const data = await useFetch<SourcePlaylist[]>({
+			endpoint: Endpoints.playlist.recommend,
+			params: { listid: id, language: lang },
 		});
 
-		if (!data) throw AppError.NotFound(ErrorMessages.Playlist.NOT_FOUND);
+		if (!data.length) {
+			throw AppError.NotFound(ErrorMessages.Playlist.NOT_FOUND);
+		}
 
-		const playlist = mapPlaylistResponse(data);
+		if (raw) return data;
 
-		return {
-			...playlist,
-			songCount: playlist?.songs?.length || null,
-			songs: playlist?.songs?.slice(0, limit) || [],
-		};
+		return data.map(playlist => playlistPayload(playlist, mini));
 	}
 }
 

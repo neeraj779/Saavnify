@@ -1,22 +1,29 @@
 import { Handler } from 'hono';
 import { playlistService } from '@/services/playlist.service';
-import { playlistByIdOrLinkSchema } from '@/schemas/validation/playlist.schema';
+import {
+	playlistByIdOrLinkSchema,
+	playlistRecommendSchema,
+} from '@/schemas/validation/playlist.schema';
 
 export class PlaylistController {
 	public getPlaylistByIdOrLink: Handler = async c => {
-		const { id, link, page, limit } = playlistByIdOrLinkSchema.parse(c.req.query());
+		const { id, link, token, raw, mini } = playlistByIdOrLinkSchema.parse(c.req.query());
 
-		const response = link
-			? await playlistService.getPlaylistByLink({
-					token: link,
-					page: page || 0,
-					limit: limit || 10,
-				})
-			: await playlistService.getPlaylistById({
-					id: id!,
-					page: page || 0,
-					limit: limit || 10,
-				});
+		const response = await playlistService.getPlaylistByIdOrLink({
+			id,
+			link,
+			token,
+			raw,
+			mini,
+		});
+
+		return c.json({ success: true, data: response });
+	};
+
+	public getRecommendations: Handler = async c => {
+		const { id, lang, mini, raw } = playlistRecommendSchema.parse(c.req.query());
+
+		const response = await playlistService.getRecommendations(id, lang, raw, mini);
 
 		return c.json({ success: true, data: response });
 	};

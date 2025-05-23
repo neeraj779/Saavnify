@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { filterValidLangs } from './custom.transform.validation';
 
 export const songIdsOrLinkSchema = z
 	.object({
@@ -7,25 +8,25 @@ export const songIdsOrLinkSchema = z
 			.string()
 			.url()
 			.optional()
-			.transform(value => value?.match(/jiosaavn\.com\/song\/[^/]+\/([^/]+)$/)?.[1]),
+			.transform(value => value?.split('/').at(-1)),
+		token: z.string().optional(),
+		raw: z.string().pipe(z.coerce.boolean()).optional(),
+		mini: z.string().pipe(z.coerce.boolean()).optional(),
 	})
-	.refine(({ ids, link }) => ids || link, {
+	.refine(({ ids, link, token }) => ids || link || token, {
 		message: 'Either song ID(s) or link is required.',
 	});
 
-export const songParamsSchema = z.object({
+export const songLyricsQuerySchema = z.object({
 	id: z.string(),
 });
 
-export const songLyricsQuerySchema = z.object({
-	lyrics: z.string().optional(),
-});
-
 export const songSuggestionsQuerySchema = z.object({
-	limit: z.string().pipe(z.coerce.number()).optional(),
+	id: z.string(),
+	lang: z.string().transform(filterValidLangs).optional(),
+	mini: z.string().pipe(z.coerce.boolean()).optional(),
+	raw: z.string().pipe(z.coerce.boolean()).optional(),
 });
 
 export type SongByIdsOrLinkInput = z.infer<typeof songIdsOrLinkSchema>;
-export type SongIdParamsInput = z.infer<typeof songParamsSchema>;
-export type SongLyricsQueryInput = z.infer<typeof songLyricsQuerySchema>;
 export type SongSuggestionsQueryInput = z.infer<typeof songSuggestionsQuerySchema>;
